@@ -1,0 +1,134 @@
+﻿@model MotoristaModel
+@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@{
+    
+}
+
+<style>
+    label {
+        margin-bottom: 4px;
+    }
+</style>
+
+<main class="main-content  mt-0">
+    <section>
+        <div class="page-header min-vh-100">
+            <div class="container">
+                <div class="row">
+
+                    <div class="col-xl-8 col-lg-8 col-md-12 d-flex flex-column ms-auto me-auto ms-lg-auto me-lg-8">
+                        <div class="card card-plain">
+                            <div class="card-header">
+                                <h4 class="font-weight-bolder">Motorista</h4>
+                                <p class="mb-0">Formulário de actulização dos dados</p>
+                            </div>
+                            <div class="card-body">
+                                <form method="POST" asp-controller="Motorista" asp-action="Alterar" enctype="multipart/form-data" >
+                                    <input type="hidden" asp-for="Id" />
+                                    <div class="row">
+                                        <div class="col-md-6">
+                                            <div class="input-group input-group-outline mb-3">
+                                                <img id="ProfilePicturePreview" class="border-success rounded" style="max-width: 150px" />
+                                           </div>
+                                            <div class="input-group input-group-outline mb-3">
+                                                <div class="input-group input-group-outline mb-1">
+                                                    <label for="Nome">Url da Imagem:</label>
+                                                </div>
+                                                 <input requerided type="file" class="form-control" asp-for="ImageFile">
+                                                </div>
+                                            <div class="input-group input-group-outline mb-3">
+                                                <div class="input-group input-group-outline mb-1">
+                                                  <label for="Nome">Nome:</label>
+                                                  </div>
+                                                <input type="text" id="Nome" class="form-control" asp-for="Nome">
+                                            </div>
+                                            <div class="input-group input-group-outline mb-3">
+                                                <div class="input-group input-group-outline mb-1">
+                                                    <label for="Nome">Email:</label>
+                                                </div>
+                                                <input type="email" class="form-control" asp-for="Email">
+                                            </div>
+                                            <div class="input-group input-group-outline mb-3">
+                                                <div class="input-group input-group-outline mb-1">
+                                                    <label for="Nome">Telefone:</label>
+                                                </div>
+                                                <input type="text" class="form-control" asp-for="Telefone">
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <div class="input-group input-group-outline mb-3">
+                                                <div class="input-group input-group-outline mb-1">
+                                                    <label for="Nome">Data de Nascimento:</label>
+                                                </div>
+                                                <input type="text" class="form-control" asp-for="DOB">
+                                            </div>
+                                            <div class="input-group input-group-outline mb-3">
+                                                <div class="input-group input-group-outline mb-1">
+                                                    <label for="Nome">Endereço:</label>
+                                                </div>
+                                                <input type="text" class="form-control" asp-for="Endereco">
+                                            </div>
+                                          
+                                             <div class="input-group input-group-outline mb-3">
+                                                  <div class="input-group input-group-outline mb-1">
+                                                    <label for="Nome">Categoria de Carta</label>
+                                                </div>
+                                                <select class="form-select" asp-for="data_adesao">
+                                                    <option selected>Escolha categoria de carta</option>
+                                                    <option value="A - Motociclos e Triciclos">A - Motociclos e Triciclos</option>
+                                                    <option value="B - Automóvel">B - Automóvel </option>
+                                                    <option value="C - Pesados carga >3.5 Toneladas ">C - Pesados carga >3.5 Toneladas </option>
+                                                    <option value="D - Veículos > 8 passageiros">D - Veículos > 8 passageiros</option>
+                                                    <option value="E - Veículos > 6 Toneladas">E - Veículos > 6 Toneladas</option>
+                                                </select>
+                                            </div>
+
+                                            <div class="input-group input-group-outline mb-3">
+                                                <div class="input-group input-group-outline mb-1">
+                                                    <label for="Nome">Sexo:</label>
+                                                </div>
+                                                <select class="form-select" asp-for="sexo" id="sexo-select" >
+                                                    <option selected>Escolha o sexo</option>
+                                                    <option value="Masculino">Masculino</option>
+                                                    <option value="Feminino">Feminino</option>
+                                                </select>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-md-12">
+                                          
+                                            <button type="submit" class="btn btn-primary mr-2">Actulizar</button>
+                                            <button class="btn btn-dark" asp-controller="Contato" asp-action="Index">Cancelar</button>
+
+
+                                        </div>
+                                    </div>
+
+
+                                </form>
+           
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+</main>
+
+
+@section Scripts{
+    <script>
+        $(document).ready(function () {
+            var output = document.getElementById('ProfilePicturePreview');
+            output.src = $("#MotoristaImagem").val();
+        })
+        $("#MotoristaImagem").on("change", function () {
+            var output = document.getElementById('ProfilePicturePreview');
+            output.src = $(this).val();
+        })
+    </script>
+}

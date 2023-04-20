@@ -1,0 +1,178 @@
+﻿@{
+    ViewData["Title"] = "Home Page";
+}
+
+
+
+@*@microsoft/signalr@latest*@
+
+<div class="container">
+    <div class="row">&nbsp;</div>
+    <div class="row">
+        <div class="col-2">Product Name</div>
+        <div class="col-4"><input type="text" id="productName" /></div>
+    </div>
+ 
+    <div class="row">
+             <div class="text-center">
+            <input type="button" id="sendButton" value="Save" class="btn btn-primary"></input>
+        </div>
+
+        <div class="text-center">
+            <input type="button" id="resetButton" value="Reset" class="btn btn-dark"></input>
+        </div>
+
+
+        <form method="post">
+
+     
+            <div class="row">
+                <div class="col-2"></div>
+                <div class="col-4"><input type="text" placeholder="Height (cm):e" name="height" id="height" /></div>
+            </div><br />
+
+            <div class="row">
+                <div class="col-2"></div>
+                <div class="col-4"><input type="number" placeholder="Weight (kg):" name="weight" id="weight" /></div>
+            </div><br />
+
+            <div class="row">
+                <div class="col-2"></div>
+                <div class="col-4"><button id="calculateButton" type="submit">Calculate BMI</button></div>
+            </div><br />
+
+            
+        </form>
+
+        <div class="row">
+            <div class="col-2"></div>
+            <div class="col-4">
+                <p>Your BMI is: @TempData["Bmi"]</p>
+            </div>
+        </div><br />
+
+       
+
+    </div>
+
+</div>
+
+@section Scripts
+{
+<script src="~/js/signalr/dist/browser/signalr.js"></script>
+<script src="~/js/product.js"></script>
+
+
+<div class="container">
+  
+
+        <div class="container-fluid py-2 mx-8">
+            <div class="row">
+                <div class="col-12">
+                    <div class="card my-4">
+                        <div class="card-header p-0 position-relative mt-n4 mx-3 z-index-2">
+                            <div class="bg-gradient-primary shadow-primary border-radius-lg pt-4 pb-3">
+                                <h6 class="text-white text-capitalize ps-3">Authors table</h6>
+                            </div>
+                        </div>
+                        <div class="card-body px-0 pb-2">
+                            <div class="table-responsive p-0">
+                                <table class="table align-items-center mb-0">
+                                    <thead>
+                                        <tr>
+                                            <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Author</th>
+                                            <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">Function</th>
+                                            <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Status</th>
+                                            <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Employed</th>
+                                            <th class="text-secondary opacity-7"></th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                            <td>
+                                                <div class="d-flex px-2 py-1">
+                                                    <div>
+                                                        <img src="../assets/img/team-2.jpg" class="avatar avatar-sm me-3 border-radius-lg" alt="user1">
+                                                    </div>
+                                                    <div class="d-flex flex-column justify-content-center">
+                                                        <h6 id="messagesList"class="mb-0 text-sm">  <label>Minha Lista</label></h6>
+                                                        <p class="text-xs text-secondary mb-0"></p>
+                                                    </div>
+                                                </div>
+                                            </td>
+                                            <td>
+                                                <p class="text-xs font-weight-bold mb-0"> <label>Minute</label></p>
+                                                <p class="text-xs text-secondary mb-0">Organization</p>
+                                            </td>
+                                            <td class="align-middle text-center text-sm">
+                                                <span id="productCount" class="badge badge-sm bg-gradient-success"> 0</span>
+                                            </td>
+                                            <td class="align-middle text-center">
+                                                <span id="timer" class="text-secondary text-xs font-weight-bold"> </span>
+                                            </td>
+                                            <td class="align-middle">
+                                                <a href="javascript:;" class="text-secondary font-weight-bold text-xs" data-toggle="tooltip" data-original-title="Edit user">
+                                                    Edit
+                                                </a>
+                                            </td>
+                                        </tr>
+                                        
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+
+     
+
+
+    <script>
+        var connection = new signalR.HubConnectionBuilder().withUrl("/productHub").build();
+        document.getElementById("timer").innerHTML = 0;
+
+        connection.on("ReceiveProduct", function (productName, count) {
+            var minute = parseInt(document.getElementById("timer").innerHTML);
+            if (minute == 0) {
+                document.getElementById("timer").innerHTML = 1;
+                countTimeStart();
+            }
+            var li = document.createElement("li");
+            document.getElementById("messagesList").appendChild(li);
+            // We can assign user-supplied strings to an element's textContent because it
+            // is not interpreted as markup. If you're assigning in any other way, you
+            // should be aware of possible script injection concerns.
+            li.textContent = `${productName}`;
+            document.getElementById("productCount").innerHTML = count;
+        });
+        connection.on("ReceiveResetProduct", function () {
+
+            document.getElementById("timer").innerHTML = 0;
+            countTimeStop();
+            document.getElementById("messagesList").innerHTML = "";
+            document.getElementById("productCount").innerHTML = 0;
+        });
+        connection.start().then(function () {
+            //document.getElementById("sendButton").disabled = false;
+        }).catch(function (err) {
+            return console.error(err.toString());
+        });
+
+        var x;
+        function countTimeStart() {
+            x = setInterval(function () {
+                document.getElementById("timer").innerHTML = parseInt(document.getElementById("timer").innerHTML) + 1;
+            }, 60000);
+        }
+        function countTimeStop() {
+            if (x != undefined) {
+                clearInterval(x);
+            }
+        }
+
+    </script>
+}
+
+        

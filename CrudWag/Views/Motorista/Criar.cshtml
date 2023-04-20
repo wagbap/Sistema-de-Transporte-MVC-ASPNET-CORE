@@ -1,0 +1,121 @@
+﻿@using CrudWag.Data.Enum;
+@model MotoristaModel
+
+@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@{
+}
+
+
+<main class="main-content  mt-0">
+    <section>
+        <div class="page-header min-vh-100">
+            <div class="container">
+                <div class="row">
+
+                    <div class="col-xl-8 col-lg-8 col-md-12 d-flex flex-column ms-auto me-auto ms-lg-auto me-lg-8">
+                        <div class="card card-plain">
+                            <div class="card-header">
+                                <h4 class="font-weight-bolder">Motorista</h4>
+                                <p class="mb-0">Formulário de registro de motorista</p>
+                            </div>
+                            <div class="card-body">
+                                <form  asp-controller="Motorista"  asp-action="Criar"  method="post" enctype="multipart/form-data">
+                                    <div class="row">
+                                        <div class="col-md-6">
+                                            <div class="input-group input-group-outline mb-3">
+                                                 
+                                                <input type="file" class="form-control" asp-for="ImageFile" placeholder="Capa do Livro">
+                                            </div>
+                                            <div class="input-group input-group-outline mb-3">
+                                                <label class="form-label">Nome </label>
+                                                <input type="text" class="form-control" asp-for="Nome">
+                                            </div>
+                                            <div class="input-group input-group-outline mb-3">
+                                                <label class="form-label">Email</label>
+                                                <input type="email" class="form-control" asp-for="Email">
+                                            </div>
+                                            <div class="input-group input-group-outline mb-3">
+
+                                                <select class="form-select" asp-for="data_adesao">
+                                                    <option selected>Escolha categoria de carta</option>
+                                                    <option value="A">A - Motociclos e Triciclos</option>
+                                                    <option value="B">B - Automóvel </option>
+                                                    <option value="C">C - Pesados carga >3.5 Toneladas </option>
+                                                    <option value="D">D - Veículos > 8 passageiros</option>
+                                                    <option value="E">E - Veículos > 6 Toneladas</option>
+                                                </select>
+
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <div class="input-group input-group-outline mb-3">
+                                                <label class="form-label">Data de Nascimento</label>
+                                                <input type="text" class="form-control" asp-for="DOB">
+                                            </div>
+                                            <div class="input-group input-group-outline mb-3">
+                                                <label class="form-label">Endereço</label>
+                                                <input type="text" class="form-control" asp-for="Endereco">
+                                            </div>
+                                            <div class="input-group input-group-outline mb-3">
+                                                <label class="form-label">Telefone</label>
+                                                <input type="text" class="form-control" asp-for="Telefone">
+                                            </div>
+                                            <div class="input-group input-group-outline mb-3">
+                                            <select class="form-select" asp-for="sexo">
+                                                <option selected>Escolha o sexo</option>
+                                                <option value="@SexoEnum.Masculino">Masculino</option>
+                                                <option value="@SexoEnum.Feminino">Feminino</option>
+                                                </select>
+                                        </div>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-md-12">
+                                            <div class="form-check form-check-info text-start ps-0">
+                                                <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault" checked>
+                                                <label class="form-check-label" for="flexCheckDefault">
+                                                    I agree the <a href="javascript:;" class="text-dark font-weight-bolder">Terms and Conditions</a>
+                                                </label>
+                                            </div>
+                                            <button type="submit" class="btn btn-primary mr-2">Registar</button>
+                                            <button class="btn btn-dark" asp-controller="Motorista" asp-action="Index">Cancelar</button>
+
+                                          
+                                        </div>
+                                    </div>
+
+
+                                </form>
+                            </div>
+                            <div class="card-footer text-center pt-0 px-lg-2 px-1">
+                                <p class="mb-2 text-sm mx-auto">
+                                    Already have an account?
+                                    <a href="../pages/sign-in.html" class="text-primary text-gradient font-weight-bold">Sign in</a>
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+</main>
+
+@section Scripts{
+    <script>
+        $(document).ready(function () {
+            $("#ImageFile").on("change", function () {
+                var file = this.files[0];
+                if (file) {
+                    var reader = new FileReader();
+                    reader.onload = function (e) {
+                        $('#ProfilePicturePreview').attr('src', e.target.result);
+                    };
+                    reader.readAsDataURL(file);
+                }
+            });
+        });
+    </script>
+}
