@@ -1,4 +1,5 @@
-﻿@model MotoristaModel
+﻿@using CrudWag.Data.Enum;
+@model MotoristaModel
 @*
     For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 *@
@@ -27,16 +28,18 @@
                             <div class="card-body">
                                 <form method="POST" asp-controller="Motorista" asp-action="Alterar" enctype="multipart/form-data" >
                                     <input type="hidden" asp-for="Id" />
+                                     <input type="hidden" asp-for="MotoristaImagem" />
                                     <div class="row">
                                         <div class="col-md-6">
-                                            <div class="input-group input-group-outline mb-3">
-                                                <img id="ProfilePicturePreview" class="border-success rounded" style="max-width: 150px" />
-                                           </div>
+                                               <div class="form-group text-center">
+                    <img id="ProfilePicturePreview" class="border-success rounded" style="max-width: 150px" src="@Model.MotoristaImagem" />
+                </div>
+                                         
                                             <div class="input-group input-group-outline mb-3">
                                                 <div class="input-group input-group-outline mb-1">
                                                     <label for="Nome">Url da Imagem:</label>
                                                 </div>
-                                                 <input requerided type="file" class="form-control" asp-for="ImageFile">
+                                                 <input  type="file" class="form-control" asp-for="ImageFile">
                                                 </div>
                                             <div class="input-group input-group-outline mb-3">
                                                 <div class="input-group input-group-outline mb-1">
@@ -89,10 +92,10 @@
                                                 <div class="input-group input-group-outline mb-1">
                                                     <label for="Nome">Sexo:</label>
                                                 </div>
-                                                <select class="form-select" asp-for="sexo" id="sexo-select" >
+                                                <select class="form-select" asp-for="sexo">
                                                     <option selected>Escolha o sexo</option>
-                                                    <option value="Masculino">Masculino</option>
-                                                    <option value="Feminino">Feminino</option>
+                                                    <option value="@SexoEnum.Masculino">Masculino</option>
+                                                    <option value="@SexoEnum.Feminino">Feminino</option>
                                                 </select>
                                             </div>
                                         </div>
@@ -123,12 +126,17 @@
 @section Scripts{
     <script>
         $(document).ready(function () {
-            var output = document.getElementById('ProfilePicturePreview');
-            output.src = $("#MotoristaImagem").val();
-        })
-        $("#MotoristaImagem").on("change", function () {
-            var output = document.getElementById('ProfilePicturePreview');
-            output.src = $(this).val();
-        })
+            $("#ImageFile").on("change", function () {
+                var file = this.files[0];
+                if (file) {
+                    var reader = new FileReader();
+                    reader.onload = function (e) {
+                        $('#ProfilePicturePreview').attr('src', e.target.result);
+                    };
+                    reader.readAsDataURL(file);
+                }
+            });
+        });
     </script>
 }
+

@@ -71,7 +71,6 @@ namespace CrudWag.Controllers
             }
             catch (Exception erro)
             {
-
                 TempData["MensagemErro"] = "Ops, Nao foi possivel guardar Livro, erro";
                 return RedirectToAction("Index");
                }
@@ -90,13 +89,35 @@ namespace CrudWag.Controllers
             {
                 if (ModelState.IsValid)
                 {
+
+                    if (motorista.ImageFile != null)
+                    {
+                        var fileName = Path.GetFileNameWithoutExtension(motorista.ImageFile.FileName);
+                        var extension = Path.GetExtension(motorista.ImageFile.FileName);
+                        fileName = fileName + "_" + DateTime.Now.ToString("yymmssfff") + extension;
+
+                        var path = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot/Uploads/", fileName);
+
+                        using (var stream = new FileStream(path, FileMode.Create))
+                        {
+                            motorista.ImageFile.CopyTo(stream);
+                        }
+                        motorista.MotoristaImagem = "/Uploads/" + fileName;
+                    }
+                    else {
+
+                        motorista.MotoristaImagem = motorista.MotoristaImagem;
+
+
+                    }
+             
                     motorista = _motoristaRepositorio.Atualizar(motorista);
-                    TempData["MensagemSucesso"] = "Livro atualizado com sucesso";
-                     return RedirectToAction("Index");
+                    TempData["MensagemSucesso"] = "Livro salvo com sucesso";
+                    return RedirectToAction("Index");
                 }
                 else
                 {
-                    TempData["MensagemErro"] = "Ops, Nao foi possivel atualizar Livro, erro na validação";
+                    TempData["MensagemErro"] = "Ops, Nao foi possivel actulizar motorista, erro";
                     return RedirectToAction("Index");
                 }
             }
@@ -105,6 +126,12 @@ namespace CrudWag.Controllers
                 TempData["MensagemErro"] = "Ops, Nao foi possivel atualizar Livro, erro";
                 return RedirectToAction("Index");
             }
+        }
+        //DELETE
+        public IActionResult ApagarConfirmacao(int id)
+        {
+            MotoristaModel motorista = _motoristaRepositorio.ListaPorId(id);
+            return View(motorista);
         }
 
 
@@ -116,7 +143,7 @@ namespace CrudWag.Controllers
                 {
                     _motoristaRepositorio.Apagar(id);
                     TempData["MensagemSucesso"] = $"Livro apagado com sucesso";
-                    return RedirectToAction("Index", "Home");
+                    return RedirectToAction("Index", "Motorista");
                 }
                 else
                 {
@@ -132,13 +159,9 @@ namespace CrudWag.Controllers
 
         }
 
-        //DELETE
-        public IActionResult ApagarConfirmacao(int id)
-        {
-            MotoristaModel motorista = _motoristaRepositorio.ListaPorId(id);
-            return View(motorista);
-     
-        }
+
+
+
 
     }
 }

@@ -12,11 +12,33 @@ namespace CrudWag.Repositorio
             _bancoDbContext = bancoDbContext;
         }
 
+      
         public bool Apagar(int id)
         {
-            throw new NotImplementedException();
+            var motorista = ListaPorId(id);
+            if (motorista == null) return false;
+
+            if (!string.IsNullOrEmpty(motorista.MotoristaImagem))
+            {
+                ExcluirImagemAntiga(motorista.MotoristaImagem);
+                motorista.MotoristaImagem = motorista.MotoristaImagem;
+            }
+            _bancoDbContext.TbMotorista.Remove(motorista);
+            _bancoDbContext.SaveChanges();
+            return true;
         }
 
+        public void ExcluirImagemAntiga(string imageUrl)
+        {
+            if (!string.IsNullOrEmpty(imageUrl))
+            {
+                var imagePath = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot" + imageUrl);
+                if (System.IO.File.Exists(imagePath))
+                {
+                    System.IO.File.Delete(imagePath);
+                }
+            }
+        }
         public MotoristaModel Atualizar(MotoristaModel motorista)
         {
             MotoristaModel motoristaDB = ListaPorId(motorista.Id);

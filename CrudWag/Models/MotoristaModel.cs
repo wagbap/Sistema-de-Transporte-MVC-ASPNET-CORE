@@ -15,8 +15,10 @@ namespace CrudWag.Models
         public string Endereco { get; set; }
         public string? MotoristaImagem { get; set; }  // stores movie image name with extension (eg, image0001.jpg)
         [NotMapped]
-        [Required(ErrorMessage = "Selecione uma imagem")]
-        public IFormFile ImageFile { get; set; }
+
+
+
+        public IFormFile? ImageFile { get; set; }
 
         public string DOB { get; set; }
 
