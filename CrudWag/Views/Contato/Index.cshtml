@@ -4,8 +4,8 @@
     For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 *@
 @{
+    Layout = "_Layout";
 }
-
 <div>
 <a asp-controller="Contato" asp-action="Criar" type="button" class="btn btn-inverse-success btn-fw">Criar</a>
 </div>
@@ -114,17 +114,3 @@
 
 
 
-<script>
-    $(function () {
-        $('#searchButton').click(function () {
-            var query = $('#searchQuery').val();
-            $.ajax({
-                url: '@Url.Action("Index", "Contato")',
-                data: { query: query },
-                success: function (data) {
-                    $('tbody').html(data);
-                }
-            });
-        });
-    });
-</script>

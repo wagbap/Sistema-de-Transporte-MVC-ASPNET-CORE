@@ -1,0 +1,85 @@
+﻿@using CrudWag.Data.Enum;
+@model UsuarioModel
+@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@{
+}
+
+<main class="main-content  mt-0">
+    <section>
+        <div class="page-header min-vh-100">
+            <div class="container">
+                <div class="row">
+
+                    <div class="col-xl-8 col-lg-8 col-md-12 d-flex flex-column ms-auto me-auto ms-lg-auto me-lg-8">
+                        <div class="card card-plain">
+                            <div class="card-header">
+                                <h4 class="font-weight-bolder">Motorista</h4>
+                                <p class="mb-0">Formulário de registro de motorista</p>
+                            </div>
+                            <div class="card-body">
+            <h4 class="card-title">Create Contact</h4>
+            <p class="card-description"> Basic information to contact form </p>
+            <form class="forms-sample" asp-controller="Usuarios" asp-action="Criar" method="post" enctype="multipart/form-data">
+                                   
+                <div class="form-group text-center">
+                     <img id="ProfilePicturePreview" class="border-success rounded" style="max-width: 150px" />
+                </div>
+                <div class="form-group">
+                    <label for="ImageFile">Image Url</label>
+                    <input type="file" class="form-control" asp-for="ImageFile" placeholder="Image URL">
+                    @Html.ValidationMessageFor(x => x.ImageFile)
+                </div>
+                <div class="form-group">
+                    <label for="Name">Nome</label>
+                    <input type="text" class="form-control" asp-for="Nome" placeholder="Full-Name">
+                    @Html.ValidationMessageFor(x => x.Nome)
+                </div>
+                <div class="form-group">
+                    <label for="Login">Login</label>
+                    <input type="text" class="form-control" asp-for="Login" placeholder="Login">
+                </div>
+                <div class="form-group">
+                    <label for="Email">Email</label>
+                    <input type="email" class="form-control" asp-for="Email" placeholder="Email">
+                </div>
+                <div class="form-group">
+                    <label for="Perfil">Tipo Perfil</label>
+                    <select class="form-control" asp-for="Perfil">
+                        <option>Selecione</option>
+                        <option value="@PerfilEnum.Admin">Administrador</option>
+                        <option value="@PerfilEnum.Padrao">Padrão</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="Senha">Senha</label>
+                    <input type="password" class="form-control" asp-for="Senha" placeholder="Senha">
+                </div>
+                <button type="submit" class="btn btn-primary mr-2">Criar</button>
+                <a type="button" class="btn btn-dark" asp-controller="Cinema" asp-action="Index">Cancel</a>
+            </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+@section Scripts{
+    <script>
+        $(document).ready(function () {
+            $("#ImageFile").on("change", function () {
+                var file = this.files[0];
+                if (file) {
+                    var reader = new FileReader();
+                    reader.onload = function (e) {
+                        $('#ProfilePicturePreview').attr('src', e.target.result);
+                    };
+                    reader.readAsDataURL(file);
+                }
+            });
+        });
+    </script>
+}

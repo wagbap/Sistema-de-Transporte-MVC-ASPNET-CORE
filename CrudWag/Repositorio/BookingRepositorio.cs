@@ -1,6 +1,8 @@
 ﻿using CrudWag.Data;
 using CrudWag.Models;
-using Microsoft.EntityFrameworkCore.Metadata.Conventions;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 
 namespace CrudWag.Repositorio
 {

@@ -12,6 +12,5 @@ namespace CrudWag.Repositorio
         MotoristaModel Atualizar(MotoristaModel motorista);
 
         bool Apagar(int id);
- 
     }
 }

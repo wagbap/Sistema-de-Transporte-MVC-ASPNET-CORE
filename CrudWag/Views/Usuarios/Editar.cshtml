@@ -1,0 +1,115 @@
+﻿@using CrudWag.Data.Enum;
+@model UsuarioModel
+@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@{
+}
+
+<main class="main-content  mt-0">
+    <section>
+        <div class="page-header min-vh-100">
+            <div class="container">
+                <div class="row">
+
+                    <div class="col-xl-8 col-lg-8 col-md-12 d-flex flex-column ms-auto me-auto ms-lg-auto me-lg-8">
+                        <div class="card card-plain">
+                            <div class="card-header">
+                                <h4 class="font-weight-bolder">Motorista</h4>
+                                <p class="mb-0">Formulário de actulização dos dados</p>
+                            </div>
+                            <div class="card-body">
+                                <form method="POST" asp-controller="Usuarios" asp-action="Editar" enctype="multipart/form-data">
+                                    <input type="hidden" asp-for="Id" />
+                                    <input type="hidden" asp-for="ImageURL" />
+                                    <div class="row">
+                                        <div class="col-md-6">
+                                            <div class="form-group text-center">
+                                                <img id="ProfilePicturePreview" class="border-success rounded" style="max-width: 150px" src="@Model.ImageURL" />
+                                            </div>
+
+                                            <div class="input-group input-group-outline mb-3">
+                                                <div class="input-group input-group-outline mb-1">
+                                                    <label for="Nome">Url da Imagem:</label>
+                                                </div>
+                                                <input type="file" class="form-control" asp-for="ImageFile">
+                                                @Html.ValidationMessageFor(x => x.ImageFile)
+                                            </div>
+                                            <div class="input-group input-group-outline mb-3">
+                                                <div class="input-group input-group-outline mb-1">
+                                                    <label for="Nome">Nome:</label>
+                                                </div>
+                                                <input type="text" id="Nome" class="form-control" asp-for="Nome">
+                                                @Html.ValidationMessageFor(x => x.Nome)
+                                            </div>
+                                           
+                                        </div>
+                                        <div class="col-md-6">
+
+                                            <div class="input-group input-group-outline mb-3">
+                                                <div class="input-group input-group-outline mb-1">
+                                                    <label for="Nome">Email:</label>
+                                                </div>
+                                                <input type="email" class="form-control" asp-for="Email">
+                                                @Html.ValidationMessageFor(x => x.Email)
+                                            </div>
+                                            <div class="input-group input-group-outline mb-3">
+                                                <div class="input-group input-group-outline mb-1">
+                                                    <label for="Nome">Login:</label>
+                                                </div>
+                                                <input type="text" class="form-control" asp-for="Login">
+                                                @Html.ValidationMessageFor(x => x.Login)
+                                            </div>
+                                           
+                                           
+                                            <div class="input-group input-group-outline mb-3">
+                                                <div class="input-group input-group-outline mb-1">
+                                                    <label for="Nome">Sexo:</label>
+                                                </div>
+                                                <select class="form-select" asp-for="Perfil">
+                                                    <option>Selecione</option>
+                                                    <option value="@PerfilEnum.Admin">Administrador</option>
+                                                    <option value="@PerfilEnum.Padrao">Padrão</option>
+                                                </select>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-md-12">
+
+                                            <button type="submit" class="btn btn-primary mr-2">Actulizar</button>
+                                            <button class="btn btn-dark" asp-controller="Contato" asp-action="Index">Cancelar</button>
+
+
+                                        </div>
+                                    </div>
+
+
+                                </form>
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+</main>
+
+
+@section Scripts{
+    <script>
+        $(document).ready(function () {
+            $("#ImageURL").on("change", function () {
+                var file = this.files[0];
+                if (file) {
+                    var reader = new FileReader();
+                    reader.onload = function (e) {
+                        $('#ProfilePicturePreview').attr('src', e.target.result);
+                    };
+                    reader.readAsDataURL(file);
+                }
+            });
+        });
+    </script>
+}

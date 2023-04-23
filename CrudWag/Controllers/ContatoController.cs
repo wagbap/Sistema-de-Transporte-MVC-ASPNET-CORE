@@ -22,8 +22,8 @@ namespace CrudWag.Controllers
         [HttpGet]
         public IActionResult Index(string query)
         {
-            var contatos = _contatoRepositorio.BuscarTodos();
-            return View(contatos);
+            var contato = _contatoRepositorio.BuscarTodos();
+            return View(contato);
         }
 
         [HttpPost]
@@ -33,6 +33,9 @@ namespace CrudWag.Controllers
 
             if (ModelState.IsValid)
             {
+                
+                
+
                 _contatoRepositorio.Create(contato);
                 return RedirectToAction("Index");
             }

@@ -2,6 +2,9 @@ using CrudWag.Data;
 using CrudWag.Repositorio;
 using Microsoft.EntityFrameworkCore;
 using AspNetCoreSignalRProductCount.Hubs;
+using CrudWag.Helpers;
+using CrudWag.Repositorio;
+
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -10,6 +13,22 @@ builder.Services.AddControllersWithViews();
 builder.Services.AddRazorPages().AddRazorRuntimeCompilation();
 builder.Services.AddScoped<IContatoRepositorio, ContatoRepositorio>();
 builder.Services.AddScoped<IMotoristaRepositorio, MotoristaRepositorio>();
+builder.Services.AddScoped<IUsuarioRepositorio, UsuarioRepositorio>();
+// fazer inject sempre que a interface ISessao for invocada no controller
+builder.Services.AddScoped<ISessao, Sessao>();
+builder.Services.AddScoped<IEmail, Email>();
+builder.Services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
+builder.Services.AddSession(o =>
+{
+    o.Cookie.HttpOnly = true;
+    o.Cookie.IsEssential = true;
+});
+
+builder.Services.AddSession(options =>
+{
+    options.IdleTimeout = TimeSpan.FromMinutes(30);
+});
+
 builder.Services.AddSignalR();
 
 var configuration =  new ConfigurationBuilder()
@@ -42,10 +61,6 @@ app.MapControllerRoute(
     name: "default",
     pattern: "{controller=Home}/{action=Index}/{id?}");
 app.MapHub<ProductHub>("/productHub");
-app.MapHub<BMICalculatorHub>("/bmiCalculatorHub");
-app.Run();
 
-
-
-
+app.UseSession();
 app.Run();

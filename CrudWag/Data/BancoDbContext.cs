@@ -13,5 +13,7 @@ namespace CrudWag.Data
 
         public DbSet<MotoristaModel> TbMotorista { get; set; }
 
+        public DbSet<UsuarioModel> TbUsuarios { get; set; }
+
     }
 }
