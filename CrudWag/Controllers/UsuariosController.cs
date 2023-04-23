@@ -61,7 +61,16 @@ namespace CrudWag.Controllers
 
                     }
 
-             
+                    var usuarioExistente = _usuarioRepositorio.BuscarPorLogin(usuario.Login);
+
+                    if (usuarioExistente.Login == usuario.Login)
+                    {
+
+                        TempData["MensagemSucesso"] = "Este usuário já está cadastrado";
+                        return View(usuario);
+                    }
+
+
                     _usuarioRepositorio.Adicionar(usuario);
                     TempData["MensagemSucesso"] = "Usuario cadastrado com sucesso";
                     return RedirectToAction("Index");
