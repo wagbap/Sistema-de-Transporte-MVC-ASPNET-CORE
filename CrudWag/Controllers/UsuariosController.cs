@@ -64,7 +64,7 @@ namespace CrudWag.Controllers
                     if (usuarioExistente.Login == usuario.Login)
                     {
 
-                        TempData["MensagemSucesso"] = "Este usuário já está cadastrado";
+                        TempData["MensagemSucesso"] = "Usuario Existente";
                         return View(usuario);
                     }
 
