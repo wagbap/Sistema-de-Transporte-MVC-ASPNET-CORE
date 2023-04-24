@@ -65,7 +65,7 @@ namespace CrudWag.Controllers
                     {
 
                         TempData["MensagemSucesso"] = "Usuario Existente";
-                        return View(usuario);
+                        return RedirectToAction("Criar", "Usuarios");
                     }
 
 

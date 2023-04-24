@@ -81,5 +81,32 @@
                 }
             });
         });
-    </script>
+        </script>
+
+        
+    @if (TempData["MensagemSucesso"] != null)
+    {
+        <script>
+            $(document).ready(function () {
+                $('#liveToast').toast('show');
+            });
+        </script>
+    }
+
 }
+ 
+
+    <div class="position-fixed bottom-10 right-0 p-3" style="z-index: 5; position: absolute; top: 80px; right: 0;">
+    <div id="liveToast" class="toast hide" role="alert" aria-live="assertive" aria-atomic="true" data-delay="5000">
+
+        <div class="">
+            <div class="alert @(TempData.ContainsKey("MensagemSucesso") ? "alert-success" : "alert-danger")" role="alert">
+                @if (TempData["MensagemSucesso"] != null)
+                {
+                    @TempData["MensagemSucesso"]
+                }
+        
+            </div>
+        </div>
+    </div>
+</div>
