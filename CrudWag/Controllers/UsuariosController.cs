@@ -15,14 +15,12 @@ namespace CrudWag.Controllers
     public class UsuariosController : Controller
     {
         private readonly IUsuarioRepositorio _usuarioRepositorio;
-        private readonly IContatoRepositorio _contatoRepositorio;
 
-     
 
-        public UsuariosController(IUsuarioRepositorio usuarioRepositorio, IContatoRepositorio contatoRepositorio)
+        public UsuariosController(IUsuarioRepositorio usuarioRepositorio)
         {
             _usuarioRepositorio = usuarioRepositorio;
-            _contatoRepositorio = contatoRepositorio;
+          
 
         }
         public IActionResult Index()
