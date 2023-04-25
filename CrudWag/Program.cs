@@ -62,12 +62,7 @@ app.MapControllerRoute(
 app.MapHub<ProductHub>("/productHub");
 
 
-// Create and migrate database
-using (var scope = app.Services.CreateScope())
-{
-    var dbContext = scope.ServiceProvider.GetService<BancoDbContext>();
-    dbContext.Database.Migrate();
-}
+
 
 
 app.UseSession();
