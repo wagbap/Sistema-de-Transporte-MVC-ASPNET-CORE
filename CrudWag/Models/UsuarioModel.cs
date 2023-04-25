@@ -29,9 +29,6 @@ namespace CrudWag.Models
         public string Senha { get; set; }
         public DateTime DataCadastro { get; set; }
         public DateTime? DataAtualizacao { get; set; }
-
-        // relacionamento entre tabelas
-        public virtual List<ContatoModel>? Contatos { get; set; }
       
         // verificaçãoo da senha de login
         public bool SenhaValida(string senha)

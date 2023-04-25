@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace CrudWag.Migrations
 {
     /// <inheritdoc />
-    public partial class teste : Migration
+    public partial class resolved : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -32,6 +32,25 @@ namespace CrudWag.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "TbTransporte",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    ImageURL = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Modelo = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Ano = table.Column<int>(type: "int", nullable: false),
+                    CapacidadePassageiro = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    TaxaAluguer = table.Column<float>(type: "real", nullable: false),
+                    IsAvailable = table.Column<bool>(type: "bit", nullable: false),
+                    TransporteTipo = table.Column<int>(type: "int", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_TbTransporte", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "TbUsuarios",
                 columns: table => new
                 {
@@ -50,45 +69,16 @@ namespace CrudWag.Migrations
                 {
                     table.PrimaryKey("PK_TbUsuarios", x => x.Id);
                 });
-
-            migrationBuilder.CreateTable(
-                name: "TbContatos",
-                columns: table => new
-                {
-                    Id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    ImgUrl = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    Name = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    Email = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    Phone = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    Job = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    Observation = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    UsuarioModelId = table.Column<int>(type: "int", nullable: true)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_TbContatos", x => x.Id);
-                    table.ForeignKey(
-                        name: "FK_TbContatos_TbUsuarios_UsuarioModelId",
-                        column: x => x.UsuarioModelId,
-                        principalTable: "TbUsuarios",
-                        principalColumn: "Id");
-                });
-
-            migrationBuilder.CreateIndex(
-                name: "IX_TbContatos_UsuarioModelId",
-                table: "TbContatos",
-                column: "UsuarioModelId");
         }
 
         /// <inheritdoc />
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropTable(
-                name: "TbContatos");
+                name: "TbMotorista");
 
             migrationBuilder.DropTable(
-                name: "TbMotorista");
+                name: "TbTransporte");
 
             migrationBuilder.DropTable(
                 name: "TbUsuarios");

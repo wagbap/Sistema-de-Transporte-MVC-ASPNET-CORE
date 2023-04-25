@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace CrudWag.Migrations
 {
     [DbContext(typeof(BancoDbContext))]
-    [Migration("20230424210916_teste")]
-    partial class teste
+    [Migration("20230425165914_resolved")]
+    partial class resolved
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -24,48 +24,6 @@ namespace CrudWag.Migrations
                 .HasAnnotation("Relational:MaxIdentifierLength", 128);
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
-
-            modelBuilder.Entity("CrudWag.Models.ContatoModel", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
-
-                    b.Property<string>("Email")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("ImgUrl")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Job")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Name")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Observation")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Phone")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<int?>("UsuarioModelId")
-                        .HasColumnType("int");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("UsuarioModelId");
-
-                    b.ToTable("TbContatos");
-                });
 
             modelBuilder.Entity("CrudWag.Models.MotoristaModel", b =>
                 {
@@ -110,6 +68,43 @@ namespace CrudWag.Migrations
                     b.ToTable("TbMotorista");
                 });
 
+            modelBuilder.Entity("CrudWag.Models.TransporteModel", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<int>("Ano")
+                        .HasColumnType("int");
+
+                    b.Property<string>("CapacidadePassageiro")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("ImageURL")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<bool>("IsAvailable")
+                        .HasColumnType("bit");
+
+                    b.Property<string>("Modelo")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<float>("TaxaAluguer")
+                        .HasColumnType("real");
+
+                    b.Property<int>("TransporteTipo")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("TbTransporte");
+                });
+
             modelBuilder.Entity("CrudWag.Models.UsuarioModel", b =>
                 {
                     b.Property<int>("Id")
@@ -149,18 +144,6 @@ namespace CrudWag.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("TbUsuarios");
-                });
-
-            modelBuilder.Entity("CrudWag.Models.ContatoModel", b =>
-                {
-                    b.HasOne("CrudWag.Models.UsuarioModel", null)
-                        .WithMany("Contatos")
-                        .HasForeignKey("UsuarioModelId");
-                });
-
-            modelBuilder.Entity("CrudWag.Models.UsuarioModel", b =>
-                {
-                    b.Navigation("Contatos");
                 });
 #pragma warning restore 612, 618
         }
