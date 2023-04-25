@@ -12,6 +12,9 @@ namespace CrudWag.Models
         [Required(ErrorMessage = "Imagem do transporte Obrigatório")]
         public string ImageURL { get; set; }
 
+        [NotMapped]
+        public IFormFile? ImageFile { get; set; }
+
         [Required(ErrorMessage = "Modelo Obrigatorio")]
         public string Modelo { get; set; }
 

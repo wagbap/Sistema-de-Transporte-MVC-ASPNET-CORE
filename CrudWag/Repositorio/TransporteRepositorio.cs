@@ -10,12 +10,11 @@ namespace CrudWag.Repositorio
         public TransporteRepositorio(BancoDbContext bancoDbContext)
         {
             _bancoDbContext = bancoDbContext;
-        }
+        }    
 
-      
         public bool Apagar(int id)
         {
-            var transporte = ListaPorId(id);
+            var transporte = ListarPorId(id);
             if (transporte == null) return false;
 
             if (!string.IsNullOrEmpty(transporte.ImageURL))
@@ -40,12 +39,17 @@ namespace CrudWag.Repositorio
             }
         }
 
-
-        
-        public List<TransporteModel> BuscarTodos()
+        public List<TransporteModel> ListarTodos()
         {
             return _bancoDbContext.TbTransporte.ToList();
         }
+
+
+        TransporteModel ListarPorId(int id)
+        {
+            return _bancoDbContext.TbTransporte.FirstOrDefault(x => x.Id == id);
+        }
+
 
 
         public TransporteModel Create(TransporteModel transporte)
@@ -54,15 +58,12 @@ namespace CrudWag.Repositorio
             _bancoDbContext.SaveChanges();
             return transporte;
         }
-
-        public TransporteModel ListaPorId(int id)
-        {
-            return _bancoDbContext.TbTransporte.FirstOrDefault(x => x.Id == id);
-        }
+ 
+       
 
         public TransporteModel Atualizar(TransporteModel transporte)
         {
-            TransporteModel transporteDB = ListaPorId(transporte.Id);
+            TransporteModel transporteDB = ListarPorId(transporte.Id);
 
             if (transporteDB == null) throw new Exception("nao encontrado");
 
@@ -80,6 +81,9 @@ namespace CrudWag.Repositorio
             return transporteDB;
         }
 
-  
+        TransporteModel ITransporteRepositorio.ListarPorId(int id)
+        {
+            throw new NotImplementedException();
+        }
     }
 }
