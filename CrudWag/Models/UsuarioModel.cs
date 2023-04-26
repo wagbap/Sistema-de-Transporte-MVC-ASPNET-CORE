@@ -29,7 +29,11 @@ namespace CrudWag.Models
         public string Senha { get; set; }
         public DateTime DataCadastro { get; set; }
         public DateTime? DataAtualizacao { get; set; }
-      
+
+        // relacionamento entre tabelas
+        public virtual List<MotoristaModel>? Motorista { get; set; }
+        public virtual List<TransporteModel >? Transporte { get; set; }
+
         // verificaçãoo da senha de login
         public bool SenhaValida(string senha)
         {

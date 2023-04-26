@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace CrudWag.Migrations
 {
     [DbContext(typeof(BancoDbContext))]
-    [Migration("20230425165914_resolved")]
-    partial class resolved
+    [Migration("20230426152346_Booking")]
+    partial class Booking
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -56,6 +56,9 @@ namespace CrudWag.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<int?>("UsuarioModelId")
+                        .HasColumnType("int");
+
                     b.Property<string>("data_adesao")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
@@ -64,6 +67,8 @@ namespace CrudWag.Migrations
                         .HasColumnType("int");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("UsuarioModelId");
 
                     b.ToTable("TbMotorista");
                 });
@@ -84,7 +89,6 @@ namespace CrudWag.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("ImageURL")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<bool>("IsAvailable")
@@ -100,7 +104,12 @@ namespace CrudWag.Migrations
                     b.Property<int>("TransporteTipo")
                         .HasColumnType("int");
 
+                    b.Property<int?>("UsuarioModelId")
+                        .HasColumnType("int");
+
                     b.HasKey("Id");
+
+                    b.HasIndex("UsuarioModelId");
 
                     b.ToTable("TbTransporte");
                 });
@@ -144,6 +153,27 @@ namespace CrudWag.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("TbUsuarios");
+                });
+
+            modelBuilder.Entity("CrudWag.Models.MotoristaModel", b =>
+                {
+                    b.HasOne("CrudWag.Models.UsuarioModel", null)
+                        .WithMany("Motorista")
+                        .HasForeignKey("UsuarioModelId");
+                });
+
+            modelBuilder.Entity("CrudWag.Models.TransporteModel", b =>
+                {
+                    b.HasOne("CrudWag.Models.UsuarioModel", null)
+                        .WithMany("Transporte")
+                        .HasForeignKey("UsuarioModelId");
+                });
+
+            modelBuilder.Entity("CrudWag.Models.UsuarioModel", b =>
+                {
+                    b.Navigation("Motorista");
+
+                    b.Navigation("Transporte");
                 });
 #pragma warning restore 612, 618
         }
