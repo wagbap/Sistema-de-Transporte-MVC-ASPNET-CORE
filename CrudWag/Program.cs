@@ -11,8 +11,10 @@ var builder = WebApplication.CreateBuilder(args);
 // Add services to the container.
 builder.Services.AddControllersWithViews();
 builder.Services.AddRazorPages().AddRazorRuntimeCompilation();
-builder.Services.AddScoped<IMotoristaRepositorio, MotoristaRepositorio>();
 builder.Services.AddScoped<IUsuarioRepositorio, UsuarioRepositorio>();
+builder.Services.AddScoped<IMotoristaRepositorio, MotoristaRepositorio>();
+builder.Services.AddScoped<ITransporteRepositorio, TransporteRepositorio>();
+
 // fazer inject sempre que a interface ISessao for invocada no controller
 builder.Services.AddScoped<ISessao, Sessao>();
 builder.Services.AddScoped<IEmail, Email>();

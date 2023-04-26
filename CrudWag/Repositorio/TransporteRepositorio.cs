@@ -45,7 +45,7 @@ namespace CrudWag.Repositorio
         }
 
 
-        TransporteModel ListarPorId(int id)
+        public TransporteModel ListarPorId(int id)
         {
             return _bancoDbContext.TbTransporte.FirstOrDefault(x => x.Id == id);
         }
@@ -81,9 +81,6 @@ namespace CrudWag.Repositorio
             return transporteDB;
         }
 
-        TransporteModel ITransporteRepositorio.ListarPorId(int id)
-        {
-            throw new NotImplementedException();
-        }
+      
     }
 }

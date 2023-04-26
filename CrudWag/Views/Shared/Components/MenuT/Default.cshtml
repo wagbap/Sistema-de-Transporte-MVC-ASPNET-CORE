@@ -43,7 +43,7 @@
                 </li>
 
                 <li class="nav-item">
-                    <a class="nav-link text-white " href="../pages/profile.html">
+                <a class="nav-link text-white " asp-action="Index" asp-controller="transporte">
                         <div class="text-white text-center me-2 d-flex align-items-center justify-content-center">
                             <i class="material-icons opacity-10">drive_eta</i>
                         </div>
@@ -129,8 +129,8 @@
                     <li class="nav-item d-flex align-items-center">
                         <a href="javascript:;" class="nav-link text-body font-weight-bold px-0">
                             
-                            <span class="d-sm-inline d-none">@Model.Login</span>
-                            <img src="./assets/img/team-2.jpg" class="avatar avatar-sm  me-3 ">
+                            <span class="d-sm-inline d-none d-sm-inline d-none t-s text-uppercase">@Model.Login</span>
+                            <img src="@Model.ImageURL" class=" font-size-18 avatar avatar-sm  me-3 ">
                         </a>
                     
                     </li>

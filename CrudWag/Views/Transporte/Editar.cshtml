@@ -1,0 +1,163 @@
+﻿@using CrudWag.Data.Enum;
+@model TransporteModel
+@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@{
+    
+}
+
+<style>
+    label {
+        margin-bottom: 4px;
+    }
+</style>
+
+<main class="main-content mt-0">
+    <section>
+        <div class="page-header min-vh-100">
+            <div class="container">
+                <div class="row">
+                    <div class="col-xl-8 col-lg-8 col-md-12 d-flex flex-column ms-auto me-auto ms-lg-auto me-lg-8">
+                        <div class="card card-plain">
+                            <div class="card-header">
+                                <h4 class="font-weight-bolder">Transporte</h4>
+                                <p class="mb-0">Formulário de atualização dos dados</p>
+                            </div>
+                            <div class="card-body">
+                                <form method="POST" asp-controller="Transporte" asp-action="Alterar" enctype="multipart/form-data">
+                                    <input type="hidden" asp-for="Id" />
+                                    <input type="hidden" asp-for="ImageURL" />
+                                    <div class="row">
+                                        <div class="col-md-6">
+                                            <div class="form-group text-center">
+                                                <img id="ProfilePicturePreview" class="border-success rounded" style="max-width: 150px" src="@Model.ImageURL" />
+                                            </div>
+                                            <div class="input-group input-group-outline mb-3">
+                                                <div class="input-group input-group-outline mb-1">
+                                                    <label for="Nome">URL da Imagem:</label>
+                                                </div>
+                                                <input type="file" class="form-control" asp-for="ImageURL">
+                                            </div>
+
+                                            <div class="input-group input-group-outline mb-3">
+                                                <div class="input-group input-group-outline mb-1">
+                                                    <label for="Modelo">Modelo:</label>
+                                                </div>
+                                                <input type="text" id="Modelo" class="form-control" asp-for="Modelo" />
+                                            </div>
+
+                                            <div class="input-group input-group-outline mb-3">
+                                                <div class="input-group input-group-outline mb-1">
+                                                    <label for="Marca">Ano de Fabrico:</label>
+                                                </div>
+                                                <input type="text" class="form-control" asp-for="Ano" />
+                                            </div>
+
+                                            <div class="input-group input-group-outline mb-3">
+                                                <div class="input-group input-group-outline mb-1">
+                                                    <label for="CapacidadePassageiro">Capacidade de Passageiro:</label>
+                                                </div>
+                                                <input type="text" class="form-control" asp-for="CapacidadePassageiro " />
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6">
+
+                                            <div class="input-group input-group-outline mb-3">
+                                                <div class="input-group input-group-outline mb-1">
+                                                    <label for="TaxaAluguer">Taxa de Aluguer </label>
+                                                </div>
+                                                <input type="text" class="form-control" asp-for="TaxaAluguer " />
+                                            </div>
+                                           
+                                            <div class="input-group input-group-outline mb-3">
+                                                <select class="form-select" asp-for="IsAvailable">
+                                                    <option value="">Escolha a disponibilidade</option>
+                                                    <option value="true">Disponível</option>
+                                                    <option value="false">Indisponível</option>
+                                                </select>
+                                            </div>
+
+                                            <div class="input-group input-group-outline mb-3">
+                                                <select class="form-select" asp-for="TransporteTipo">
+                                                    <option value="">Escolha o tipo de transporte</option>
+                                                    <option value="@TransporteTipoEnum.Automovel">Autómovel</option>
+                                                    <option value="@TransporteTipoEnum.Camiao">Camião</option>
+                                                    <option value="@TransporteTipoEnum.Autocarro">Autocarro</option>
+                                                    <option value="@TransporteTipoEnum.Limousine">Limousine</option>
+                                                    <option value="@TransporteTipoEnum.Mota">Mota</option>
+                                                    <option value="@TransporteTipoEnum.Bicicleta">Bicicleta</option>
+                                                    <option value="@TransporteTipoEnum.MotadeAgua">Mota de Água</option>
+                                                </select>
+                                            </div>
+
+                                            <div class="row">
+                                                <div class="col-md-12">
+
+                                                    <button type="submit" class="btn btn-primary mr-2">Actulizar</button>
+                                                    <button class="btn btn-dark" asp-controller="Contato" asp-action="Index">Cancelar</button>
+
+
+                                                </div>
+                                            </div>
+
+
+                                </form>
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+</main>
+
+
+<!-- Button to Open the Modal -->
+<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#myModal">
+    Open modal
+</button>
+
+<!-- The Modal -->
+<div class="modal" id="modalContatoPorId">
+    <div class="modal-dialog modal-md">
+        <div class="modal-content">
+
+            <!-- Modal Header -->
+            <div class="modal-header">
+                <h4 class="modal-title">Contact Info</h4>
+                @*<button type="button" class="close" data-dismiss="modal" style="color: red">&times;</button>*@
+            </div>
+
+            <!-- Modal body -->
+            <div class="modal-body">
+                <div id="ListarContatoPorID"></div>
+            </div>
+
+            <!-- Modal footer -->
+            <div class="modal-footer">
+                <a type="button" class="btn btn-inverse-danger btn-sm" data-dismiss="modal">Close</a>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+@section Scripts{
+    <script>
+        $(document).ready(function () {
+            $("#ImageURL").on("change", function () {
+                var file = this.files[0];
+                if (file) {
+                    var reader = new FileReader();
+                    reader.onload = function (e) {
+                        $('#ProfilePicturePreview').attr('src', e.target.result);
+                    };
+                    reader.readAsDataURL(file);
+                }
+            });
+        });
+    </script>
+}
+

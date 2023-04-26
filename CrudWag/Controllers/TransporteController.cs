@@ -54,14 +54,13 @@ namespace CrudWag.Controllers
                         }
                         transporte.ImageURL = "/Uploads/" + fileName;
                     }
-
                     transporte = _transporteRepositorio.Create(transporte);
-                    TempData["MensagemSucesso"] = "Transporte salvo com sucesso";
+                    TempData["MensagemSucesso"] = "Trnasporte salvo com sucesso";
                     return RedirectToAction("Index");
                 }
                 else
                 {
-                    TempData["MensagemErro"] = "Ops, não foi possível guardar o transporte, erro na validação";
+                    TempData["MensagemErro"] = "Ops, Nao foi possivel guardar imagem, erro na validação";
                     return RedirectToAction("Index");
                 }
             }
@@ -111,7 +110,7 @@ namespace CrudWag.Controllers
                 }
                 else
                 {
-                    TempData["MensagemErro"] = "Ops, não foi possível atualizar o transporte, erro na validação";
+                    TempData["MensagemErro"] = "Ops, não foi possível atualizar a imagem, erro na validação";
                     return RedirectToAction("Index");
                 }
             }
