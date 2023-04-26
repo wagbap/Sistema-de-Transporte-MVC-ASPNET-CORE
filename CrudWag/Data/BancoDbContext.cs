@@ -16,7 +16,7 @@ namespace CrudWag.Data
 
         public DbSet<TransporteModel> TbTransporte { get; set; }
 
-        public DbSet<BookingeModel> TbBooking{ get; set; }
+        public DbSet<BookingModel> TbBooking  { get; set; }
 
     }
 }

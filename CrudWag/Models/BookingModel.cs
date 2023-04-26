@@ -5,7 +5,7 @@ using CrudWag.Data.Enum;
 
 namespace CrudWag.Models
 {
-    public class BookingeModel
+    public class BookingModel
     {
         [Key]
         public int Id { get; set; }
