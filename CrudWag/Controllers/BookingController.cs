@@ -28,14 +28,28 @@ namespace CrudWag.Controllers
                 return View(model);
             }
 
-            [HttpPost]
-            public IActionResult Add(BookingModel model)
-            {
-                model.MotoristaList = _genService.BuscarTodos().Select(a => new SelectListItem { Text = a.Nome, Value = a.Id.ToString() });
-                if (!ModelState.IsValid)
-                    return View(model);
+        [HttpPost]
+        public IActionResult Add(BookingModel model)
+        {
+           
 
-                var result = _movieService.Add(model);
+            if (model.file != null)
+            {
+                var fileName = Path.GetFileNameWithoutExtension(model.file.FileName);
+                var extension = Path.GetExtension(model.file.FileName);
+                fileName = fileName + "_" + DateTime.Now.ToString("yymmssfff") + extension;
+
+                var path = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot/Uploads/", fileName);
+
+                using (var stream = new FileStream(path, FileMode.Create))
+                {
+                    model.file.CopyTo(stream);
+                }
+                model.ProvaCartaConducao = "/Uploads/" + fileName;
+            }
+            model.MotoristaList = _genService.BuscarTodos().Select(a => new SelectListItem { Text = a.Nome, Value = a.Id.ToString() });
+            var result = _movieService.Add(model);
+
                 if (result)
                 {
                     TempData["msg"] = "Added Successfully";
@@ -45,8 +59,10 @@ namespace CrudWag.Controllers
                 {
                     TempData["msg"] = "Error on server side";
                     return View(model);
-                }
-            }
+
+                } 
+            
+        }
 
         public IActionResult Edit(int id)
             {

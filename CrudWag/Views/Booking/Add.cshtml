@@ -18,8 +18,8 @@
 
     <div class="row">
         <div class="col-md-8 offset-md-2">
-            <form asp-controller="Booking" asp-action="Add" method="post" enctype="multipart/form-data">
-                <div asp-validation-summary="All" class="text-danger"></div>
+            <form asp-controller="Booking" asp-action="MovieList" method="post" enctype="multipart/form-data">
+            
 
                 <div class="form-group">
                     <label asp-for="DataInicio" class="control-label"></label>
@@ -40,9 +40,8 @@
                 </div>
 
                 <div class="form-group">
-                    <label asp-for="ProvaCartaConducao" class="control-label"></label>
-                    <input asp-for="ProvaCartaConducao" class="form-control" />
-                    <span asp-validation-for="ProvaCartaConducao" class="text-danger"></span>
+  
+                    <input asp-for="file" type="file"  class="form-control" />
                 </div>
 
                 <div class="form-group">
@@ -59,5 +58,22 @@
                     <button type="submit" class="btn btn-primary">Reservar</button>
                 </div>
             </form>
-       
 
+
+
+            @section Scripts{
+                <script>
+                    $(document).ready(function () {
+                        $("#file").on("change", function () {
+                            var file = this.files[0];
+                            if (file) {
+                                var reader = new FileReader();
+                                reader.onload = function (e) {
+                                    $('#ProfilePicturePreview').attr('src', e.target.result);
+                                };
+                                reader.readAsDataURL(file);
+                            }
+                        });
+                    });
+                </script>
+            }

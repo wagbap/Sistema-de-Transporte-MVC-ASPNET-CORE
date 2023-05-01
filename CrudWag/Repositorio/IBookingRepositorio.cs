@@ -1,4 +1,5 @@
 ﻿using CrudWag.Models;
+using Microsoft.AspNetCore.WebUtilities;
 
 namespace CrudWag.Repositorio
 {
@@ -13,6 +14,6 @@ namespace CrudWag.Repositorio
         bool Delete(int id);
 
         List<int> GetMotoristaByBookingId(int movieId);
-
+      
     }
 }

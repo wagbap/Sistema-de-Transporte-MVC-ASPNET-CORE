@@ -19,8 +19,11 @@ namespace CrudWag.Models
         [Required(ErrorMessage = "Preço Total Obrigatorio")]
         public float PrecoTotal { get; set; }
 
-        [Required(ErrorMessage = "Prova que tens carta de condução")]
+
         public string ProvaCartaConducao { get; set; }
+
+        [NotMapped]
+        public IFormFile? file { get; set; }
 
         // relação entre tabelas
         public int? UsuarioId { get; set; }
