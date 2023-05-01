@@ -16,7 +16,7 @@ namespace CrudWag.Controllers
         //VIEW
 
         [HttpGet]
-        public IActionResult Index(string query)
+        public IActionResult Index()
         {
             var motorista = _motoristaRepositorio.BuscarTodos();
             return View(motorista);

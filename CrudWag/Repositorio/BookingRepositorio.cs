@@ -1,80 +1,120 @@
-﻿using CrudWag.Data;
+﻿using Microsoft.EntityFrameworkCore;
+using CrudWag.Data;
 using CrudWag.Models;
-using Microsoft.EntityFrameworkCore.Metadata.Conventions;
+using NuGet.Protocol.Plugins;
+using System.ComponentModel.DataAnnotations;
+using Microsoft.AspNetCore.Identity;
+
 
 namespace CrudWag.Repositorio
 {
-    public class MotoristaRepositorio : IMotoristaRepositorio
-    {
-        private readonly BancoDbContext _bancoDbContext;
-        public MotoristaRepositorio(BancoDbContext bancoDbContext)
-        {
-            _bancoDbContext = bancoDbContext;
-        }
 
-      
-        public bool Apagar(int id)
-        {
-            var motorista = ListaPorId(id);
-            if (motorista == null) return false;
-
-            if (!string.IsNullOrEmpty(motorista.MotoristaImagem))
+            public class BookingRepositorio : IBookingRepositorio
             {
-                ExcluirImagemAntiga(motorista.MotoristaImagem);
-                motorista.MotoristaImagem = motorista.MotoristaImagem;
+            private readonly BancoDbContext ctx;
+            public BookingRepositorio(BancoDbContext ctx)
+            {
+                this.ctx = ctx;
             }
-            _bancoDbContext.TbMotorista.Remove(motorista);
-            _bancoDbContext.SaveChanges();
-            return true;
+
+        public List<BookingModel> BuscarTodos()
+        {
+            return ctx.TbBooking.ToList();
         }
 
-        public void ExcluirImagemAntiga(string imageUrl)
+        public bool Add(BookingModel model)
         {
-            if (!string.IsNullOrEmpty(imageUrl))
+            try
             {
-                var imagePath = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot" + imageUrl);
-                if (System.IO.File.Exists(imagePath))
+
+                ctx.TbBooking.Add(model);
+                ctx.SaveChanges();
+                foreach (int genreId in model.MotoristaId)
                 {
-                    System.IO.File.Delete(imagePath);
+                    var movieGenre = new MovieGenre
+                    {
+                        MovieId = model.Id,
+                        GenreId = genreId
+                    };
+                    ctx.MovieGenre.Add(movieGenre);
+                }
+                ctx.SaveChanges();
+                return true;
+            }
+            catch (Exception ex)
+            {
+                return false;
+            }
+        }
+
+
+            public bool Delete(int id)
+            {
+                try
+                {
+                    var data = this.GetById(id);
+                    if (data == null)
+                        return false;
+                    var movieGenres = ctx.MovieGenre.Where(a => a.MovieId == data.Id);
+                    foreach (var movieGenre in movieGenres)
+                    {
+                        ctx.MovieGenre.Remove(movieGenre);
+                    }
+                    ctx.TbBooking.Remove(data);
+                    ctx.SaveChanges();
+                    return true;
+                }
+                catch (Exception ex)
+                {
+                    return false;
                 }
             }
-        }
-        public MotoristaModel Atualizar(MotoristaModel motorista)
-        {
-            MotoristaModel motoristaDB = ListaPorId(motorista.Id);
 
-            if (motoristaDB == null) throw new Exception("nao encontrado");
+            public BookingModel GetById(int id)
+            {
+                return ctx.TbBooking.Find(id);
+            }
 
-            motoristaDB.MotoristaImagem = motorista.MotoristaImagem;
-            motoristaDB.Nome = motorista.Nome;
-            motoristaDB.Email = motorista.Email;
-            motoristaDB.Telefone = motorista.Telefone;
-            motoristaDB.Endereco = motorista.Endereco;
-            motoristaDB.DOB = motorista.DOB;
-            motoristaDB.sexo = motorista.sexo;
-            motoristaDB.data_adesao = motorista.data_adesao;
+           
 
-            _bancoDbContext.TbMotorista.Update(motoristaDB);
-            _bancoDbContext.SaveChanges();
-            return motoristaDB;
+            public bool Update(BookingModel model)
+            {
+                try
+                {
+                    // these genreIds are not selected by users and still present is movieGenre table corresponding to
+                    // this movieId. So these ids should be removed.
+                    var genresToDeleted = ctx.MovieGenre.Where(a => a.MovieId == model.Id && !model.MotoristaId.Contains(a.GenreId)).ToList();
+                    foreach (var mGenre in genresToDeleted)
+                    {
+                        ctx.MovieGenre.Remove(mGenre);
+                    }
+                    foreach (int genId in model.MotoristaId)
+                    {
+                        var movieGenre = ctx.MovieGenre.FirstOrDefault(a => a.MovieId == model.Id && a.GenreId == genId);
+                        if (movieGenre == null)
+                        {
+                            movieGenre = new MovieGenre { GenreId = genId, MovieId = model.Id };
+                            ctx.MovieGenre.Add(movieGenre);
+                        }
+                    }
 
-        }
+                    ctx.TbBooking.Update(model);
+                    // we have to add these genre ids in movieGenre table
+                    ctx.SaveChanges();
+                    return true;
+                }
+                catch (Exception ex)
+                {
+                    return false;
+                }
+            }
 
-        public List<MotoristaModel> BuscarTodos()
-        {
-            return _bancoDbContext.TbMotorista.ToList();
-        }
+            public List<int> GetMotoristaByBookingId(int movieId)
+            {
+                var genreIds = ctx.MovieGenre.Where(a => a.MovieId == movieId).Select(a => a.GenreId).ToList();
+                return genreIds;
+            }
 
-        public MotoristaModel Create(MotoristaModel motorista)
-        {
-            _bancoDbContext.TbMotorista.Add(motorista);
-            _bancoDbContext.SaveChanges();
-            return motorista;
-        }
-
-        public MotoristaModel ListaPorId(int id)
-        {
-            return _bancoDbContext.TbMotorista.FirstOrDefault(x => x.Id == id);
-        }
+    
     }
-}
+    }

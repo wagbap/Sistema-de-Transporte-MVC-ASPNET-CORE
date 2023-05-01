@@ -1,0 +1,162 @@
+﻿@model IEnumerable<BookingModel>
+
+@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@{
+    Layout = "_Layout";
+}
+
+@section Scripts {
+
+
+    @if (TempData["MensagemSucesso"] != null || TempData["MensagemErro"] != null)
+    {
+        <script>
+            $(document).ready(function () {
+                $('#liveToast').toast('show');
+            });
+        </script>
+    }
+}
+
+
+
+<div class="container">
+
+
+
+    <div class="container-fluid py-4 mx-8">
+        <div>
+            <input type="text" id="searchQuery" />
+            <button class="btn btn-primary mr-2" id="searchButton">Pesquisar</button>
+        </div><br /><br />
+
+        <div class="col-12" >
+            <a class="btn btn-dark mr-2" asp-controller="Booking" asp-action="Add" type="button" class="btn btn-inverse-success btn-fw">Registar</a>
+        </div>
+
+
+<div class="row">
+    <div class="col-12">
+        <div class="card my-4">
+            <div class="card-header p-0 position-relative mt-n4 mx-3 z-index-2">
+                <div class="bg-gradient-primary shadow-primary border-radius-lg pt-4 pb-3">
+                    <h6 class="text-white text-capitalize ps-3">Booking Table</h6>
+                </div>
+            </div>
+            <div class="card-body px-0 pb-2">
+                <div class="table-responsive p-0">
+                    <table class="table align-items-center mb-0">
+                        <thead>
+                            <tr>
+                                <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">ID</th>
+                                <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">Data Início</th>
+                                <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Data Fim</th>
+                                <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Preço Total</th>
+                                <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Status</th>
+                                <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Action</th>
+                                <th class="text-secondary opacity-7"></th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @if (Model != null && Model.Any())
+                            {
+                                foreach (BookingModel booking in Model)
+                                {
+                                    <tr>
+                                        <td>
+                                            @booking.Id
+                                        </td>
+                                        <td>
+                                            <div class="d-flex px-2 py-1">
+                                                <div class="d-flex flex-column justify-content-center">
+                                                    <h6 id="messagesList" class="mb-0 text-sm">  <label>@booking.DataInicio</label></h6>
+                                                </div>
+                                            </div>
+                                        </td>
+                                        <td class="align-middle text-center">
+                                            <span class="text-secondary text-xs"> @booking.DataFim</span>
+                                        </td>
+                                        <td class="align-middle text-center">
+                                            <span class="text-secondary text-xs"> @booking.PrecoTotal</span>
+                                        </td>
+                                 
+                                        <td class="align-middle">
+                                            <a href="javascript:;" class="text-secondary font-weight-bold text-xs" data-toggle="tooltip" data-original-title="Ver">
+                                                Ver
+                                            </a>
+                                            <a asp-controller="Booking" asp-action="Editar" asp-route-id="@booking.Id" class="text-secondary font-weight-bold text-xs" data-toggle="tooltip" data-original-title="Editar">
+                                                Editar
+                                            </a>
+                                            
+                                            <a asp-controller="Booking" asp-action="ApagarConfirmacao" asp-route-id="@booking.Id" class="badge btn-primary btn-total-contatos">
+                                                Apagar
+                                            </a>
+                                                </td>
+                                            </tr>
+                                        }
+                                    }
+                                    else
+                                    {
+                                        <tr>
+                                            <td colspan="8">
+                                                <h4 class="text-center">Nenhum registro encontrado</h4>
+                                            </td>
+                                        </tr>
+                                    }
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+
+
+    
+    <div class="position-fixed bottom-10 right-0 p-3" style="z-index: 5; position: absolute; top: 80px; right: 0;">
+        <div id="liveToast" class="toast hide" role="alert" aria-live="assertive" aria-atomic="true" data-delay="5000">
+
+            <div class="">
+                <div class="alert @(TempData.ContainsKey("MensagemSucesso") ? "alert-success" : "alert-danger")" role="alert">
+                    @if (TempData["MensagemSucesso"] != null)
+                    {
+                        @TempData["MensagemSucesso"]
+                    }
+                    @if (TempData["MensagemErro"] != null)
+                    {
+                        @TempData["MensagemErro"]
+                    }
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+
+
+        <div class="modal" id="modalTransporte">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+
+            <!-- Modal Header -->
+            <div class="modal-header">
+                <h4 class="modal-title">Contato Lista</h4>
+                @*<button type="button" class="close" data-dismiss="modal" style="color: red">&times;</button>*@
+            </div>
+
+            <!-- Modal body -->
+            <div class="modal-body">
+                <div id="listaContatosUsuario"></div>
+            </div>
+
+            <!-- Modal footer -->
+            <div class="modal-footer">
+                <a type="button" class="btn btn-inverse-danger btn-sm" data-dismiss="modal">Close</a>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+
+

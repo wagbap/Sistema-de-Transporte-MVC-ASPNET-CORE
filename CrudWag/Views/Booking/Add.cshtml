@@ -1,0 +1,63 @@
+﻿@using CrudWag.Data.Enum;
+@model CrudWag.Models.BookingModel
+
+
+@{
+    ViewData["Title"] = "Criar reserva";
+}
+@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@{
+}
+
+
+
+<div class="container">
+    <h2 class="text-center mb-4">Reservar transporte</h2>
+
+    <div class="row">
+        <div class="col-md-8 offset-md-2">
+            <form asp-controller="Booking" asp-action="Add" method="post" enctype="multipart/form-data">
+                <div asp-validation-summary="All" class="text-danger"></div>
+
+                <div class="form-group">
+                    <label asp-for="DataInicio" class="control-label"></label>
+                    <input asp-for="DataInicio" class="form-control" />
+                    <span asp-validation-for="DataInicio" class="text-danger"></span>
+                </div>
+
+                <div class="form-group">
+                    <label asp-for="DataFim" class="control-label"></label>
+                    <input asp-for="DataFim" class="form-control" />
+                    <span asp-validation-for="DataFim" class="text-danger"></span>
+                </div>
+
+                <div class="form-group">
+                    <label asp-for="PrecoTotal" class="control-label"></label>
+                    <input asp-for="PrecoTotal" class="form-control" />
+                    <span asp-validation-for="PrecoTotal" class="text-danger"></span>
+                </div>
+
+                <div class="form-group">
+                    <label asp-for="ProvaCartaConducao" class="control-label"></label>
+                    <input asp-for="ProvaCartaConducao" class="form-control" />
+                    <span asp-validation-for="ProvaCartaConducao" class="text-danger"></span>
+                </div>
+
+                <div class="form-group">
+                    <label asp-for="MotoristaId" class="control-label"></label>
+                  <h1>Lista de Motoristas</h1>
+
+                    @Html.DropDownListFor(m => m.MotoristaId, Model.MotoristaList, "--select--", new { @class = "form-control" })
+                        
+                    <span asp-validation-for="MotoristaId" class="text-danger"></span>
+                </div>
+
+
+                <div class="form-group">
+                    <button type="submit" class="btn btn-primary">Reservar</button>
+                </div>
+            </form>
+       
+

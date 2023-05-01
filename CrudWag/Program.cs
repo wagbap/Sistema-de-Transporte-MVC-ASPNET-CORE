@@ -14,6 +14,7 @@ builder.Services.AddRazorPages().AddRazorRuntimeCompilation();
 builder.Services.AddScoped<IUsuarioRepositorio, UsuarioRepositorio>();
 builder.Services.AddScoped<IMotoristaRepositorio, MotoristaRepositorio>();
 builder.Services.AddScoped<ITransporteRepositorio, TransporteRepositorio>();
+builder.Services.AddScoped<IBookingRepositorio, BookingRepositorio>();
 
 // fazer inject sempre que a interface ISessao for invocada no controller
 builder.Services.AddScoped<ISessao, Sessao>();

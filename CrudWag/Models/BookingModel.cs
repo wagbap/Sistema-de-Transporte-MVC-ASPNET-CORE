@@ -1,7 +1,7 @@
 ﻿using System.ComponentModel.DataAnnotations.Schema;
 using System.ComponentModel.DataAnnotations;
 using CrudWag.Data.Enum;
-
+using Microsoft.AspNetCore.Mvc.Rendering;
 
 namespace CrudWag.Models
 {
@@ -29,8 +29,21 @@ namespace CrudWag.Models
         public int? TransporteId { get; set; }
         public TransporteModel? Transporte { get; set; }
 
-        public int? MotoristaId { get; set; }
-        public MotoristaModel? Motorista { get; set; }
 
+
+        // relacionamento entre tabelas
+        [NotMapped]
+        public List<int>? MotoristaId { get; set; }
+
+        [NotMapped]
+        public IEnumerable<SelectListItem>? MotoristaList { get; set; }
+
+        [NotMapped]
+        public string? MotoristaNames { get; set; }
+
+        public virtual List<MotoristaModel>? Motorista { get; set; }
+
+        [NotMapped]
+        public MultiSelectList? MultiGenreList { get; set; }
     }
 }

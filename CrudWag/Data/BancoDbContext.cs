@@ -18,5 +18,7 @@ namespace CrudWag.Data
 
         public DbSet<BookingModel> TbBooking  { get; set; }
 
+        public DbSet<MovieGenre> MovieGenre { get; set; }
+
     }
 }
